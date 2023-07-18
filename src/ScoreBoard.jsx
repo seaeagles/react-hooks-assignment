@@ -1,8 +1,23 @@
 import { useRef, useState } from "react";
 //Bootstrap has already been downloaded for you
 import "bootstrap/dist/css/bootstrap.min.css";
-import Player from "./Player";
+import Player from './Player';
+
 function ScoreBoard() {
+      const [players, setPlayers] = useState([]);
+      const playerNameRef = useRef();
+
+      const addPlayer = () => {
+        const playerName = playerNameRef.current.value;
+        if (playerName !== "") {
+          const newPlayer = {
+            id: Date.now(),
+            name: playerName,
+          };
+          setPlayers([...players, newPlayer]);
+          playerNameRef.current.value = "";
+        }
+      }
  
   return (
     <div className="container">
@@ -11,21 +26,23 @@ function ScoreBoard() {
       </div>
       <div className="row">
         <div className="col-md-4 m-auto">
-          <div class="input-group mb-3">
+          <div className="input-group mb-3">
             {/* Modify input so that it is either connected to a ref or some kind of input state */}
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="New Player Name"
               aria-label="New Player Name"
               aria-describedby="addPlayer"
               required
+              ref={playerNameRef}
             />
             {/* add Add Player event handling to this button */}
             <button
-              class="btn btn-outline-primary"
+              className="btn btn-outline-primary"
               type="button"
               id="addPlayer"
+              onClick={addPlayer}
             >
               Add Player
             </button>
